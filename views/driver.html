@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div id="googleMaps" style="width: 100%;height: 900px;"></div>
+	
+	<p id="demo"></p>
+	<script type="text/javascript">
+		
+		var socket = io();
+		var lat = {{ position.lat }} , lng = {{ position.lng }};
+
+		socket.on("done" , function(data)
+		{
+			var dest = lat + "," + lng;
+			var dest2 = data.split("/")[0];
+			if(dest2 == dest)
+				window.location.href = "https://www.google.co.in/maps/dir/" + data;
+		});
+
+		function myMap()
+		{
+			var coord = new google.maps.LatLng(lat,lng);
+
+			var map = new google.maps.Map(document.getElementById("googleMaps") , {
+				center : coord,
+				zoom : 13
+			});
+			var marker = new google.maps.Marker({
+				position : coord
+			
+			});
+			marker.setMap(map);
+			google.maps.event.addListener(marker , 'mouseover' ,function()
+			{	
+				infoWindow =  new google.maps.InfoWindow({
+					content : "Latitude : " + center.lat + "<br>Longitude : " + center.lng
+				});
+				infoWindow.open(map,marker);	
+			});	
+			
+			
+		}
+	</script>
+
+{% endblock %}

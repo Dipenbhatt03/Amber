@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<title>Blog</title>
+<meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+<link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+<script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>              
+<script src="/socket.io/socket.io.js"></script>
+<style type="text/css">
+    body 
+    {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    main 
+    {
+      flex: 1 0 auto;
+    }
+</style>
+ 
+
+<body class="w3-light-grey" onload="getAuth()">
+  
+<div class="w3-bar w3-black">
+  <a class="w3-bar-item w3-button w3-mobile" href="/">Home</a>
+  <a class="w3-bar-item w3-button w3-mobile" class="w3-bar-item w3-button w3-mobile" href="" id="auth"></a>
+  <a onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button w3-mobile">SignUp</a>
+
+
+  
+</div>
+
+
+
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+      </div>
+      <div class="w3-card-4">
+        <div class="w3-constainer">
+          <div class="row">
+            <form class="col s12" method="post" action="/users/signup">
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">account_circle</i>
+                  <input  name="Sname" type="text" class="validate" required="true">
+                  <label for="Sname">Name</label>
+                </div>
+               
+              </div>
+
+
+              
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">email</i>
+                  <input name="Semail" type="email" class="validate" required="true">
+                  <label for="email">Email</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input name="Spassword" type="password" id="password" class="validate" required="true">
+                  <label for="password">Password</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input name="Sverify" id="verify" type="password" class="validate"  required="true">
+                  <label for="verify" id="verifyLabel">Verify Password</label>
+                  <span id="passwordError" ></span>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col s6 ">
+                  
+                 <button class="btn waves-effect waves-light" type="submit" >Submit
+                <i class="material-icons right ">send</i>
+              </button>
+                
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+
+
+  
+
+  <div id="id02" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+      </div>
+
+      <div class="w3-card-4">
+        <div class="w3-container">
+          <div class="row"> 
+            
+              
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">account_circle</i>
+                  <input  name="Lname" id="Lname" type="text" class="validate" required="true">
+                  <label for="name">Name</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <input name="Lpassword" id="Lpassword" type="password" class="validate" required="true">
+                  <label for="password">Password</label>
+                  <span id="wrongPassword" ></span>
+                </div>
+              </div>
+
+        
+              <p>
+                <input name="type" type="radio" id="driver" value="driver" />
+                <label for="driver">Driver</label>
+              </p>
+              <p>
+                <input name="type" type="radio" id="user" value="user" />
+                <label for="user">User</label>
+              </p>
+
+
+
+
+
+              <div class="row">
+                <div class="col s6 ">
+                   <button class="btn waves-effect waves-light" id="LoginButton" class="action">Submit
+                  <i class="material-icons right ">send</i>
+                 </button>
+                </div>
+              </div>
+
+            
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+{% block content %}    
+{% endblock %}
+
+{% block script %}    
+{% endblock %}
+
+<script type="text/javascript">
+
+  
+
+  function getAuth()
+  {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function()
+    {
+      if(this.readyState == 4 && this.status == 200)
+      {
+        var res = JSON.parse(this.response);
+        var anchor = document.getElementById("auth");
+
+        anchor.innerHTML = res.auth;
+        anchor.href = res.url;
+        if(!res.logged)
+        {
+          anchor.onclick = function() { document.getElementById('id02').style.display='block'; };
+        }
+        console.log(res); 
+      }
+    };
+    xhttp.open("GET" , "/getAuth" , true);
+    xhttp.send();
+  } 
+
+  $("#LoginButton").click(function()
+  {
+    var name = $("#Lname").val(),
+        password = $("#Lpassword").val(),
+        type = $("input[name = 'type']:checked").val();
+    console.log(type);
+    $.post("/users/login",
+      {
+        Lname : name,
+        Lpassword : password,
+        type : type
+
+      },
+      function(data)
+      {
+          console.log(data.status);
+          if(!data.status) 
+          {
+              console.log("sd");
+              var wrongPassword = document.getElementById("wrongPassword");
+              var password = document.getElementById("Lpassword");
+              wrongPassword.innerHTML = "Username or Password is wrong";
+              password.style.boxShadow = "0 1px 0 0 #ff0000";
+              password.style.color = "#ff0000";
+              wrongPassword.style.color = "#ff0000";
+          }
+          else 
+          {
+            if(type == "driver")
+              window.location.href = "/driver";
+            else window.location.href = "/";
+          }
+
+      });
+          
+  });
+
+  
+
+  var password = document.getElementById("password");
+  var verify = document.getElementById("verify");
+  var verifyLabel = document.getElementById("verifyLabel");
+  var passwordError = document.getElementById("passwordError");
+  
+  verify.onkeyup = function()
+  {
+    console.log(password.value);
+    if(password.value != verify.value)
+    {
+      console.log("error");
+      console.log(verify.value);
+      verify.style.boxShadow = "0 1px 0 0 #ff0000";
+      verifyLabel.style.color = "#ff0000";
+      passwordError.style.color = "#ff0000";
+
+      document.getElementById("passwordError").innerHTML = "Password do not match";
+    }
+    else
+    {
+      console.log("Success");
+      console.log(verify.value);
+      verify.style.boxShadow = "0 1px 0 0 #4CAF50";
+      verifyLabel.style.color = "#4CAF50";
+      passwordError.style.color = "#4CAF50";
+      document.getElementById("passwordError").innerHTML = "Password matches.You are good to go.";
+    }
+  };
+
+  verify.onblur = function()
+  {
+    if(verify.value == "")
+    {
+      passwordError.innerHTML = "";
+      verify.style.boxShadow = "0 1px 0 0 #4CAF50";
+      verifyLabel.style.color = "#9e9e9e";
+    }
+  };
+
+
+
+
+</script>
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDohPphOzhthkP0Hc3AaLRCbfFAQHZNJ88&callback=myMap"></script>
+</body>
+</html>
