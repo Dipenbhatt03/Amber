@@ -1,5 +1,5 @@
 {
-  "name": "se_project",
+  "name": "amber",
   "version": "1.0.0",
   "description": "Project for Software Engineering.",
   "main": "index.js",
@@ -21,6 +21,7 @@
     "mongoose": "^5.0.0",
     "mongoose-unique-validator": "^1.0.6",
     "morgan": "^1.9.0",
+    "nodemon": "^1.14.12",
     "nunjucks": "^3.0.1",
     "socket.io": "^2.0.4",
     "string": "^3.3.3",
