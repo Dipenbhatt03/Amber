@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 
 
 var User = mongoose.model("User");
-var Driver = mongoose.model("Driver")
+var Driver = mongoose.model("Driver");
 
 
 var router = express.Router();
@@ -51,8 +51,10 @@ router.post("/login" ,function(req,res)
 		Logger = User;
 	else if(type == "driver")
 		Logger = Driver;
+
 	try
 	{
+		console.log("sad");
 		Logger.find({"name" : name} , function(err , result)
 		{
 			var status = false;
@@ -67,6 +69,7 @@ router.post("/login" ,function(req,res)
 					status = true;
 				}
 			}
+
 			if(!status)
 				console.error("Password is wrong");
 			res.send({"status" : status});

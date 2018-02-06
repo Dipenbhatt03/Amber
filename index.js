@@ -12,7 +12,16 @@ var routes = require("./routes/router")
 var users = require("./routes/users")
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/SEproject");
+//mongoose.connect("mongodb://127.0.0.1:27017/SEproject");
+//mongoose.connect("mongodb://Asmodeus:<amber@123>@ds225028.mlab.com:25028/amber");
+
+MONGOLAB_URI = "mongodb://admin:amber123@ds225028.mlab.com:25028/amber";
+
+mongoose.connect(MONGOLAB_URI, function (error) {
+    if (error) console.error(error);
+    else console.log('mongo connected');
+});
+
 
 
 //Connection Events
@@ -44,7 +53,15 @@ nunjucks.configure("views" , {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cookieParser());
-app.use(session({secret: "Shh, its a secret!"}));
+
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+ 
+}));
+
 
 app.io = io;
 
@@ -52,7 +69,12 @@ app.use("/",routes.Router);
 app.use("/users" , users.UserRouter);
 
 
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
 
-server.listen(8080);
+
+server.listen(8000);
 
 module.exports = app;
