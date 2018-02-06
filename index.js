@@ -58,10 +58,6 @@ app.use("/",routes.Router);
 app.use("/users" , users.UserRouter);
 
 
-if (app.get('env') === 'production') {
-  app.set('trust proxy', 1) // trust first proxy
-  sess.cookie.secure = true // serve secure cookies
-}
 
 
 server.listen(8000);
