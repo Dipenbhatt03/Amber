@@ -15,24 +15,13 @@ var users = require("./routes/users")
 //mongoose.connect("mongodb://127.0.0.1:27017/SEproject");
 //mongoose.connect("mongodb://Asmodeus:<amber@123>@ds225028.mlab.com:25028/amber");
 
-MONGOLAB_URI = "mongodb://admin:amber123@ds225028.mlab.com:25028/amber";
+MONGOLAB_URI = "mongodb://admin:admin@ds123658.mlab.com:23658/amber";
 
 mongoose.connect(MONGOLAB_URI, function (error) {
     if (error) console.error(error);
     else console.log('mongo connected');
 });
 
-
-
-//Connection Events
-mongoose.connection.on("connected" , function()
-{
-	console.log("Database connected;")
-});
-mongoose.connection.on("error" , function()
-{
-	console.log("Database connected;")
-});
 
 
 

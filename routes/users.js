@@ -14,9 +14,10 @@ router.post('/signup' , function(req,res)
 	var name = req.body.Sname,
 		email = req.body.Semail,
 		password = req.body.Spassword;
-	const user = new User({
+	const user = new Driver({
 		name : name,
 		email : email,
+		lat :15.426449471662174, lng : 73.95498275756836
 		
 	});
 	user.setPassword(password);
