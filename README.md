@@ -9,5 +9,4 @@
 <p>Driver 3: Username : Dipen  Password : 123</p>
 
 And register as user and login.
-
 Now enter submit, and you can see the driver nearest to you redirected to google maps page showing a path to your location.
