@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@derhuerst/browser-location": "^0.2.1",
-    "async": "^2.6.0",
+    "async": "^2.6.4",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "cordova": "^8.0.0",
