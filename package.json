@@ -14,7 +14,7 @@
     "async": "^2.6.0",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
-    "cordova": "^8.0.0",
+    "cordova": "^11.0.0",
     "crypto": "^1.0.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
